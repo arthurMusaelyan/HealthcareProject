@@ -12,10 +12,9 @@ class Activity {
 }
 
 class Running extends Activity {
-    constructor(name, date, duration, caloriesPerHour, distance, speed) {
+    constructor(name, date, duration, caloriesPerHour, distance) {
         super(name, date, duration, caloriesPerHour);
         this.distance = distance;
-        this.speed = speed;
     }
 
     calculatePace() {
@@ -27,9 +26,12 @@ class Running extends Activity {
     }
 }
 
-class GymExercise extends Activity {
+class GymExercise {
     constructor(name, date, duration, caloriesPerHour, weight, repetitions) {
-        super(name, date, duration, caloriesPerHour);
+        this.name = name;
+        this.date = date;
+        this.duration = duration;
+        this.caloriesPerHour = caloriesPerHour;
         this.weight = weight;
         this.repetitions = repetitions;
     }
@@ -41,8 +43,34 @@ class GymExercise extends Activity {
     getExerciseSummary() {
         return `${this.name}: ${this.repetitions} repetitions of ${this.weight}kg, lifting a total of ${this.calculateTotalWeightLifted()}kg and burning ${this.calculateCaloriesBurned()} calories.`;
     }
+
+    calculateCaloriesBurned() {
+        return this.duration * this.caloriesPerHour;
+    }
 }
 
+class StrengthTraining extends GymExercise {
+    constructor(name, date, duration, caloriesPerHour, weight, repetitions, muscleGroup) {
+        super(name, date, duration, caloriesPerHour, weight, repetitions);
+        this.muscleGroup = muscleGroup;
+    }
+
+    getExerciseSummary() {
+        return `${this.name}: ${this.repetitions} repetitions of ${this.weight}kg targeting ${this.muscleGroup} muscles, lifting a total of ${this.calculateTotalWeightLifted()}kg and burning ${this.calculateCaloriesBurned()} calories.`;
+    }
+}
+
+class CardioExercise extends GymExercise {
+    constructor(name, date, duration, caloriesPerHour, intensity) {
+        super(name, date, duration, caloriesPerHour);
+        this.intensity = intensity;
+    }
+
+    calculateCaloriesBurned() {
+        // Override the calories calculation for cardio exercises based on intensity
+        return this.duration * this.caloriesPerHour * this.intensity;
+    }
+}
 class Food {
     constructor(name, date, calories, protein, fat, carbs) {
         this.name = name;
@@ -113,6 +141,9 @@ class Diary {
 }
 
 let diary = new Diary();
+let strengthExercise = new StrengthTraining("Bench Press", new Date(), 1, 300, 80, 10, "Chest");
+let cardioExercise = new CardioExercise("Running on Treadmill", new Date(), 0.5, 600, 1.5);
+
 diary.addActivity(new Running("Morning run", new Date(), 1, 600, 5, 10));
 diary.addFood(new Food("Chicken breast", new Date(), 200, 30, 5, 0));
 
@@ -125,3 +156,5 @@ console.log(`Average activity score: ${diary.getAverageActivityScore()}`);
 console.log(`Daily results: ${diary.getDailyResults(new Date())}`);
 console.log(diary.activities[0].getExerciseSummary());
 console.log(diary.foods[0].getNutritionalInfo());
+console.log(strengthExercise.getExerciseSummary());
+console.log(cardioExercise.getExerciseSummary());
