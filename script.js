@@ -161,6 +161,14 @@ class Diary {
         const foods = this.getFoodsByDate(date);
         return foods.reduce((total, food) => total + food.calories, 0);
     }
+
+
+
+    clearDayHistory(date) {
+        this.activities = this.activities.filter(activity => activity.date.toDateString() !== date.toDateString());
+        this.foods = this.foods.filter(food => food.date.toDateString() !== date.toDateString());
+        console.log(`Cleared history for ${date.toDateString()}`);
+    }
 }
 
 class HealthApp {
@@ -222,3 +230,5 @@ healthApp.logActivity(cardioExercise.name, cardioExercise.date, cardioExercise.d
 
 // Виводимо статистику
 healthApp.showStatistics();
+
+healthApp.clearDayHistory(new Date());
