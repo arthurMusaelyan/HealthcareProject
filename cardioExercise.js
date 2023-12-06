@@ -1,6 +1,6 @@
-import GymExercise from './GymExercises';
+const { GymExercise } = require('./GymExercises.js');
 
-export default class CardioExercise extends GymExercise {
+  class CardioExercise extends GymExercise {
     constructor(name, date, duration, caloriesPerHour, intensity) {
         super(name, date, duration, caloriesPerHour, 0, 0);
         this.intensity = intensity;
@@ -15,3 +15,5 @@ export default class CardioExercise extends GymExercise {
         return `${super.getSummary()}, with intensity ${this.intensity}.`;
     }
 }
+
+module.exports = { CardioExercise };

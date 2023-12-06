@@ -1,4 +1,4 @@
-export default class Food {
+ class Food {
     constructor(name, date, calories, protein, fat, carbs) {
         this.name = name;
         this.date = date;
@@ -20,3 +20,4 @@ export default class Food {
         return `${this.name}: ${this.calories} calories, ${this.protein}g protein, ${this.fat}g fat, ${this.carbs}g carbs.`;
     }
 }
+module.exports = { Food };

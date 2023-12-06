@@ -1,10 +1,9 @@
-import Diary from './diary.js';
-import Running from './running.js';
-import StrengthTraining from './strengthTraining.js';
-import CardioExercise from './cardioExercise.js';
-import Food from './food.js';
-
-export default class HealthApp {
+const { Diary } = require('./diary.js');
+const { Running } = require('./running.js');
+const { StrengthTraining } = require('./strengthTraining.js');
+const { Food } = require('./Food.js');
+const { CardioExercise } = require('./cardioExercise.js');
+  class HealthApp {
     constructor() {
         this.diary = new Diary();
     }
@@ -65,3 +64,5 @@ healthApp.logActivity(cardioExercise.name, cardioExercise.date, cardioExercise.d
 healthApp.showStatistics();
 
 healthApp.clearDayHistory(new Date());
+
+module.exports = { HealthApp };

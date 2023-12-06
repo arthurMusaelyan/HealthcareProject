@@ -1,4 +1,6 @@
-export default class Diary {
+const { Activity, Food } = require('./Activity.js');
+
+class Diary {
     constructor() {
         this.activities = [];
         this.foods = [];
@@ -70,3 +72,4 @@ export default class Diary {
         console.log(`Cleared history for ${date.toDateString()}`);
     }
 }
+module.exports = { Diary };

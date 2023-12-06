@@ -1,4 +1,4 @@
-export default class Activity {
+  class Activity {
     constructor(name, date, duration, caloriesPerHour, description = "", category = "") {
         this.name = name;
         this.date = date;
@@ -16,5 +16,5 @@ export default class Activity {
         return `${this.name}: ${this.calculateCaloriesBurned()} calories burned`;
     }
 }
-
+module.exports = { Activity };
 
