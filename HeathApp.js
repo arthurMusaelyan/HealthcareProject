@@ -3,31 +3,30 @@ const { Running } = require('./running.js');
 const { StrengthTraining } = require('./strengthTraining.js');
 const { Food } = require('./Food.js');
 const { CardioExercise } = require('./cardioExercise.js');
+const { ActivityFactory } = require('./activityFactory.js');
+const { HealthAppObserver } = require('./healthAppObserver.js');
+
+
   class HealthApp {
     constructor() {
         this.diary = new Diary();
+        this.activityFactory = new ActivityFactory();
+        this.observer = new HealthAppObserver();
+        this.diary.addObserver(this.observer);
     }
 
-    logActivity(name, date, duration, caloriesPerHour, type, distance, weight, repetitions, muscleGroup, intensity) {
-        let activity;
+      logActivity(name, date, duration, caloriesPerHour, type, distance, weight, repetitions, muscleGroup, intensity) {
+          const options = { distance, weight, repetitions, muscleGroup, intensity };
+          const activity = this.activityFactory.createActivity(type, name, date, duration, caloriesPerHour, options);
+          this.diary.addActivity(activity);
+      }
 
-        if (type === "running") {
-            activity = new Running(name, date, duration, caloriesPerHour, distance);
-        } else if (type === "strength") {
-            activity = new StrengthTraining(name, date, duration, caloriesPerHour, weight, repetitions, muscleGroup);
-        } else if (type === "cardio") {
-            activity = new CardioExercise(name, date, duration, caloriesPerHour, intensity);
-        }
+      logFood(name, date, calories, protein, fat, carbs) {
+          const food = new Food(name, date, calories, protein, fat, carbs);
+          this.diary.addFood(food);
+      }
 
-        this.diary.addActivity(activity);
-    }
-
-    logFood(name, date, calories, protein, fat, carbs) {
-        const food = new Food(name, date, calories, protein, fat, carbs);
-        this.diary.addFood(food);
-    }
-
-    showStatistics() {
+      showStatistics() {
         console.log(`Total calories burned: ${this.diary.totalCaloriesBurned()}`);
         console.log(`Total calories consumed: ${this.diary.totalCaloriesConsumed()}`);
         console.log(`Net calories: ${this.diary.netCalories()}`);

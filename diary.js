@@ -1,7 +1,10 @@
 const { Activity, Food } = require('./Activity.js');
+const { Subject } = require('./subject.js');
 
-class Diary {
+
+class Diary extends Subject {
     constructor() {
+        super();
         this.activities = [];
         this.foods = [];
         this.bonusPoints = 0;
@@ -11,11 +14,13 @@ class Diary {
         this.activities.push(activity);
         this.bonusPoints += activity.calculateCaloriesBurned() / 100;
         console.log(`Logged activity: ${activity.getSummary()}`);
+        this.notifyObservers(activity);
     }
 
     addFood(food) {
         this.foods.push(food);
         console.log(`Logged food: ${food.getNutritionalInfo()}`);
+        this.notifyObservers(food);
     }
 
     totalCaloriesBurned() {
@@ -64,12 +69,11 @@ class Diary {
         return foods.reduce((total, food) => total + food.calories, 0);
     }
 
-
-
     clearDayHistory(date) {
         this.activities = this.activities.filter(activity => activity.date.toDateString() !== date.toDateString());
         this.foods = this.foods.filter(food => food.date.toDateString() !== date.toDateString());
         console.log(`Cleared history for ${date.toDateString()}`);
     }
 }
+
 module.exports = { Diary };
